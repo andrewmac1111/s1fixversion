@@ -1,0 +1,93 @@
+Operating system: Microsoft Windows NT 6.2.9200.0
+Opening INI file "C:\Users\andre\Downloads\Sonic 1 2019 Fix Version\Sonic 1 2005 INIs\SonLVL.ini"...
+Game type is S1.
+Loading Star Light Zone Act 1...
+Loading 8x8 tiles from file "../artnem/8x8slz.bin", using compression Nemesis...
+Loading 16x16 blocks from file "../map16/slz.bin", using compression Enigma...
+Loading 256x256 chunks from file "../map256/slz.bin", using compression Kosinski...
+Loading FG layout from file "../levels/slz1.bin", using compression Uncompressed...
+Loading palette file "../pallet/sonic.bin"...
+Source: 0 Destination: 0 Length: 16
+Loading BG layout from file "../levels/slzbg.bin", using compression Uncompressed...
+Loading palette file "../pallet/slz.bin"...
+Source: 0 Destination: 16 Length: 48
+Loading FG layout from file "../levels/slz2.bin", using compression Uncompressed...
+Loading FG layout from file "../levels/slz3.bin", using compression Uncompressed...
+Loading object definition file "obj.ini".
+Loading object definition file "objSLZ.ini".
+Loading ObjectDefinition type S1ObjectDefinitions.Common.Ring from "Common\Ring.cs"...
+Loading type from cached assembly "dllcache\S1ObjectDefinitions.Common.Ring.dll"...
+System.AggregateException: One or more errors occurred. ---> System.TypeLoadException: Method 'SubtypeImage' in type 'S1ObjectDefinitions.Common.Ring' from assembly 'S1ObjectDefinitions.Common.Ring, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+   at System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   at System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   at System.Reflection.Assembly.GetType(String name)
+   at SonicRetro.SonLVL.API.LevelData.<>c.<InitObjectDefinitions>b__98_0(KeyValuePair`2 group) in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 1266
+   at System.Threading.Tasks.Parallel.<>c__DisplayClass42_0`2.<PartitionerForEachWorker>b__1()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.InnerInvokeWithArg(Task childTask)
+   at System.Threading.Tasks.Task.<>c__DisplayClass176_0.<ExecuteSelfReplicating>b__0(Object <p0>)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at System.Threading.Tasks.Parallel.PartitionerForEachWorker[TSource,TLocal](Partitioner`1 source, ParallelOptions parallelOptions, Action`1 simpleBody, Action`2 bodyWithState, Action`3 bodyWithStateAndIndex, Func`4 bodyWithStateAndLocal, Func`5 bodyWithEverything, Func`1 localInit, Action`1 localFinally)
+   at System.Threading.Tasks.Parallel.ForEachWorker[TSource,TLocal](IEnumerable`1 source, ParallelOptions parallelOptions, Action`1 body, Action`2 bodyWithState, Action`3 bodyWithStateAndIndex, Func`4 bodyWithStateAndLocal, Func`5 bodyWithEverything, Func`1 localInit, Action`1 localFinally)
+   at System.Threading.Tasks.Parallel.ForEach[TSource](IEnumerable`1 source, Action`1 body)
+   at SonicRetro.SonLVL.API.LevelData.InitObjectDefinitions() in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 1246
+   at SonicRetro.SonLVL.API.LevelData.LoadLevel(String levelname, Boolean loadGraphics) in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 259
+   at SonicRetro.SonLVL.GUI.MainForm.backgroundLevelLoader_DoWork(Object sender, DoWorkEventArgs e) in E:\AutoBuild\SonLVL\SonLVL\MainForm.cs:line 556
+---> (Inner Exception #0) System.TypeLoadException: Method 'SubtypeImage' in type 'S1ObjectDefinitions.Common.Ring' from assembly 'S1ObjectDefinitions.Common.Ring, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+   at System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   at System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   at System.Reflection.Assembly.GetType(String name)
+   at SonicRetro.SonLVL.API.LevelData.<>c.<InitObjectDefinitions>b__98_0(KeyValuePair`2 group) in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 1266
+   at System.Threading.Tasks.Parallel.<>c__DisplayClass42_0`2.<PartitionerForEachWorker>b__1()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.InnerInvokeWithArg(Task childTask)
+   at System.Threading.Tasks.Task.<>c__DisplayClass176_0.<ExecuteSelfReplicating>b__0(Object <p0>)<---
+
+Loading Star Light Zone Act 3...
+Loading 8x8 tiles from file "../artnem/8x8slz.bin", using compression Nemesis...
+Loading 16x16 blocks from file "../map16/slz.bin", using compression Enigma...
+Loading 256x256 chunks from file "../map256/slz.bin", using compression Kosinski...
+Loading palette file "../pallet/sonic.bin"...
+Source: 0 Destination: 0 Length: 16
+Loading palette file "../pallet/slz3.bin"...
+Source: 0 Destination: 16 Length: 48
+Loading FG layout from file "../levels/slz3.bin", using compression Uncompressed...
+Loading BG layout from file "../levels/slzbg.bin", using compression Uncompressed...
+Loading FG layout from file "../levels/slz1.bin", using compression Uncompressed...
+Loading FG layout from file "../levels/slz2.bin", using compression Uncompressed...
+Loading object definition file "obj.ini".
+Loading object definition file "objSLZ.ini".
+Loading ObjectDefinition type S1ObjectDefinitions.Common.Ring from "Common\Ring.cs"...
+Loading type from cached assembly "dllcache\S1ObjectDefinitions.Common.Ring.dll"...
+System.AggregateException: One or more errors occurred. ---> System.TypeLoadException: Method 'SubtypeImage' in type 'S1ObjectDefinitions.Common.Ring' from assembly 'S1ObjectDefinitions.Common.Ring, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+   at System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   at System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   at System.Reflection.Assembly.GetType(String name)
+   at SonicRetro.SonLVL.API.LevelData.<>c.<InitObjectDefinitions>b__98_0(KeyValuePair`2 group) in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 1266
+   at System.Threading.Tasks.Parallel.<>c__DisplayClass42_0`2.<PartitionerForEachWorker>b__1()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.InnerInvokeWithArg(Task childTask)
+   at System.Threading.Tasks.Task.<>c__DisplayClass176_0.<ExecuteSelfReplicating>b__0(Object <p0>)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at System.Threading.Tasks.Parallel.PartitionerForEachWorker[TSource,TLocal](Partitioner`1 source, ParallelOptions parallelOptions, Action`1 simpleBody, Action`2 bodyWithState, Action`3 bodyWithStateAndIndex, Func`4 bodyWithStateAndLocal, Func`5 bodyWithEverything, Func`1 localInit, Action`1 localFinally)
+   at System.Threading.Tasks.Parallel.ForEachWorker[TSource,TLocal](IEnumerable`1 source, ParallelOptions parallelOptions, Action`1 body, Action`2 bodyWithState, Action`3 bodyWithStateAndIndex, Func`4 bodyWithStateAndLocal, Func`5 bodyWithEverything, Func`1 localInit, Action`1 localFinally)
+   at System.Threading.Tasks.Parallel.ForEach[TSource](IEnumerable`1 source, Action`1 body)
+   at SonicRetro.SonLVL.API.LevelData.InitObjectDefinitions() in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 1246
+   at SonicRetro.SonLVL.API.LevelData.LoadLevel(String levelname, Boolean loadGraphics) in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 259
+   at SonicRetro.SonLVL.GUI.MainForm.backgroundLevelLoader_DoWork(Object sender, DoWorkEventArgs e) in E:\AutoBuild\SonLVL\SonLVL\MainForm.cs:line 556
+---> (Inner Exception #0) System.TypeLoadException: Method 'SubtypeImage' in type 'S1ObjectDefinitions.Common.Ring' from assembly 'S1ObjectDefinitions.Common.Ring, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+   at System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   at System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   at System.Reflection.Assembly.GetType(String name)
+   at SonicRetro.SonLVL.API.LevelData.<>c.<InitObjectDefinitions>b__98_0(KeyValuePair`2 group) in E:\AutoBuild\SonLVL\SonLVLAPI\LevelData.cs:line 1266
+   at System.Threading.Tasks.Parallel.<>c__DisplayClass42_0`2.<PartitionerForEachWorker>b__1()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.InnerInvokeWithArg(Task childTask)
+   at System.Threading.Tasks.Task.<>c__DisplayClass176_0.<ExecuteSelfReplicating>b__0(Object <p0>)<---
+

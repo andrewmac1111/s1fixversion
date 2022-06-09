@@ -1,0 +1,1 @@
+               move.w  #$FFF,($FFFFF760).w ; Sonic's top speed

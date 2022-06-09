@@ -1,0 +1,1 @@
+               bsr.w   Sonic_Jump_Dash
