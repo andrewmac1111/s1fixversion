@@ -7,5 +7,5 @@
 	dc.l Demo_MZ
 	dc.l Demo_SYZ
 	dc.l Demo_SYZ
-	dc.l Demo_SS
-	dc.l Demo_SS
+;	dc.l Demo_SS
+;	dc.l Demo_SS

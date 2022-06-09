@@ -204,22 +204,23 @@ byte_17680:	dc.b 8			 ; TRY AGAIN
 		dc.b $30, 5, 0,	4, $18
 		dc.b $30, 1, 0,	$46, $28
 		dc.b $30, 5, 0,	$1A, $30
-byte_176A9:	dc.b $11		 ; SONIC TEAM PRESENTS
-		dc.b $E8, 5, 0,	$2E, $B4
-		dc.b $E8, 5, 0,	$26, $C4
-		dc.b $E8, 5, 0,	$1A, $D4
-		dc.b $E8, 1, 0,	$46, $E4
-		dc.b $E8, 5, 0,	$1E, $EC
-		dc.b $E8, 5, 0,	$3E, 4
-		dc.b $E8, 5, 0,	$E, $14
-		dc.b $E8, 5, 0,	4, $24
-		dc.b $E8, 9, 0,	8, $34
-		dc.b 0,	5, 0, $12, $C0
-		dc.b 0,	5, 0, $22, $D0
-		dc.b 0,	5, 0, $E, $E0
-		dc.b 0,	5, 0, $2E, $F0
-		dc.b 0,	5, 0, $E, 0
-		dc.b 0,	5, 0, $1A, $10
-		dc.b 0,	5, 0, $3E, $20
-		dc.b 0,	5, 0, $2E, $30
+byte_176A9:	dc.b $12	;  SONIC TEAM PRESENTS | ANDY TEAM PRESENTS
+		dc.b $E8, 5, 0, 4, $B4		; A
+		dc.b $E8, 5, 0, $1A, $C4	; N
+		dc.b $E8, 5, 0, $42, $D4	; D
+		dc.b $E8, 5, 0, $2A, $E4	; Y
+
+		dc.b $E8, 5, 0, $3E, $4	; T
+		dc.b $E8, 5, 0, $0E, $14	; E
+		dc.b $E8, 5, 0, 4, $24		; A
+		dc.b $E8, 9, 0, 8, $34		; M
+
+		dc.b 0,	5, 0, $12, $C0	; P
+		dc.b 0,	5, 0, $22, $D0	; R
+		dc.b 0,	5, 0, $E, $E0	; E
+		dc.b 0,	5, 0, $2E, $F0	; S
+		dc.b 0,	5, 0, $E, 0	; E
+		dc.b 0,	5, 0, $1A, $10	; N
+		dc.b 0,	5, 0, $3E, $20	; T
+		dc.b 0,	5, 0, $2E, $30	; S
 		even

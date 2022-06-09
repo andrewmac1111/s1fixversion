@@ -21,7 +21,8 @@ jumpdash:	equ 0
 custommusic:	equ 0
 custommusicmisc:	equ 0
 protosega:	equ 0
-protostuff:	equ 0
+protostuff:	equ 1
+protodrums:	equ 1
 protodrums:	equ 1
 ;End Of Options
 
@@ -29,13 +30,13 @@ v_palmuscounter = $FFFFFFBF
 Next_Extra_life_score =        $FFFFFFC0
 	
 StartOfRom:
-Vectors:	dc.l $FFFE00, EntryPoint, ErrorTrap, ErrorTrap
-		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
-		dc.l ErrorTrap, ErrorTrap, ErrorTrap,	ErrorTrap
-		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
-		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
-		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
-		dc.l ErrorTrap, ErrorTrap, ErrorTrap,	ErrorTrap
+Vectors:	dc.l $FFFE00, EntryPoint, BusError, AddressError
+		dc.l IllegalInstr, ZeroDivide, ChkInstr, TrapvInstr
+		dc.l PrivilegeViol, Trace, Line1010Emu,	Line1111Emu
+		dc.l ErrorExcept, ErrorExcept, ErrorExcept, ErrorExcept
+		dc.l ErrorExcept, ErrorExcept, ErrorExcept, ErrorExcept
+		dc.l ErrorExcept, ErrorExcept, ErrorExcept, ErrorExcept
+		dc.l ErrorExcept, ErrorTrap, ErrorTrap,	ErrorTrap
 		dc.l PalToCRAM,	ErrorTrap, loc_B10, ErrorTrap
 		dc.l ErrorTrap,	ErrorTrap, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap,	ErrorTrap, ErrorTrap, ErrorTrap
@@ -47,8 +48,8 @@ Vectors:	dc.l $FFFE00, EntryPoint, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap,	ErrorTrap, ErrorTrap, ErrorTrap
 Console:	dc.b 'SEGA MEGA DRIVE ' ; Hardware system ID
 Date:		dc.b '(C)SEGA 2019 MOD' ; Release date
-Title_Local:	dc.b 'SONIC THE HEDGEHOG 2019 FIX VERSION             ' ; Domestic name
-Title_Int:	dc.b 'SONIC THE HEDGEHOG 2019 FIX VERSION             ' ; International name
+Title_Local:	dc.b 'ANDREW IN SONIC THE HEDGEHOG                    ' ; Domestic name
+Title_Int:	dc.b 'ANDREW IN SONIC THE HEDGEHOG                    ' ; International name
 Serial:		dc.b 'GM 00001009-00'   ; Serial/version number
 Checksum:	dc.w 0
 		dc.b 'J               ' ; I/O support
@@ -242,6 +243,139 @@ CheckSum_Red:
 CheckSum_Loop:
 		bra.s	CheckSum_Loop
 ; ===========================================================================
+
+BusError:
+		move.b	#2,($FFFFFC44).w
+		bra.s	loc_43A
+; ===========================================================================
+
+AddressError:
+		move.b	#4,($FFFFFC44).w
+		bra.s	loc_43A
+; ===========================================================================
+
+IllegalInstr:
+		move.b	#6,($FFFFFC44).w
+		addq.l	#2,2(sp)
+		bra.s	loc_462
+; ===========================================================================
+
+ZeroDivide:
+		move.b	#8,($FFFFFC44).w
+		bra.s	loc_462
+; ===========================================================================
+
+ChkInstr:
+		move.b	#$A,($FFFFFC44).w
+		bra.s	loc_462
+; ===========================================================================
+
+TrapvInstr:
+		move.b	#$C,($FFFFFC44).w
+		bra.s	loc_462
+; ===========================================================================
+
+PrivilegeViol:
+		move.b	#$E,($FFFFFC44).w
+		bra.s	loc_462
+; ===========================================================================
+
+Trace:
+		move.b	#$10,($FFFFFC44).w
+		bra.s	loc_462
+; ===========================================================================
+
+Line1010Emu:
+		move.b	#$12,($FFFFFC44).w
+		addq.l	#2,2(sp)
+		bra.s	loc_462
+; ===========================================================================
+
+Line1111Emu:
+		move.b	#$14,($FFFFFC44).w
+		addq.l	#2,2(sp)
+		bra.s	loc_462
+; ===========================================================================
+
+ErrorExcept:
+		move.b	#0,($FFFFFC44).w
+		bra.s	loc_462
+; ===========================================================================
+
+loc_43A:
+		move	#$2700,sr
+		addq.w	#2,sp
+		move.l	(sp)+,($FFFFFC40).w
+		addq.w	#2,sp
+		movem.l	d0-a7,($FFFFFC00).w
+		bsr.w	ShowErrorMsg
+		move.l	2(sp),d0
+		bsr.w	sub_5BA
+		move.l	($FFFFFC40).w,d0
+		bsr.w	sub_5BA
+		bra.s	loc_478
+; ===========================================================================
+
+loc_462:
+		move	#$2700,sr
+		movem.l	d0-a7,($FFFFFC00).w
+		bsr.w	ShowErrorMsg
+		move.l	2(sp),d0
+		bsr.w	sub_5BA
+
+loc_478:
+		bsr.w	ErrorWaitForC
+		movem.l	($FFFFFC00).w,d0-a7
+		move	#$2300,sr
+		rte	
+
+; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+
+
+ShowErrorMsg:				; XREF: loc_43A; loc_462
+		lea	($C00000).l,a6
+		move.l	#$78000003,($C00004).l
+		lea	(Art_Text).l,a0
+		move.w	#$27F,d1
+
+Error_LoadGfx:
+		move.w	(a0)+,(a6)
+		dbf	d1,Error_LoadGfx
+		moveq	#0,d0		; clear	d0
+		move.b	($FFFFFC44).w,d0 ; load	error code
+		move.w	ErrorText(pc,d0.w),d0
+		lea	ErrorText(pc,d0.w),a0
+		move.l	#$46040003,($C00004).l ; position
+		moveq	#$12,d1		; number of characters
+
+Error_LoopChars:
+		moveq	#0,d0
+		move.b	(a0)+,d0
+		addi.w	#$790,d0
+		move.w	d0,(a6)
+		dbf	d1,Error_LoopChars ; repeat for	number of characters
+		rts	
+; End of function ShowErrorMsg
+
+; ===========================================================================
+ErrorText:	dc.w asc_4E8-ErrorText,	asc_4FB-ErrorText ; XREF: ShowErrorMsg
+		dc.w asc_50E-ErrorText,	asc_521-ErrorText
+		dc.w asc_534-ErrorText,	asc_547-ErrorText
+		dc.w asc_55A-ErrorText,	asc_56D-ErrorText
+		dc.w asc_580-ErrorText,	asc_593-ErrorText
+		dc.w asc_5A6-ErrorText
+asc_4E8:	dc.b 'ERROR EXCEPTION    '
+asc_4FB:	dc.b 'BUS ERROR          '
+asc_50E:	dc.b 'ADDRESS ERROR      '
+asc_521:	dc.b 'ILLEGAL INSTRUCTION'
+asc_534:	dc.b '@ERO DIVIDE        '
+asc_547:	dc.b 'CHK INSTRUCTION    '
+asc_55A:	dc.b 'TRAPV INSTRUCTION  '
+asc_56D:	dc.b 'PRIVILEGE VIOLATION'
+asc_580:	dc.b 'TRACE              '
+asc_593:	dc.b 'LINE 1010 EMULATOR '
+asc_5A6:	dc.b 'LINE 1111 EMULATOR '
+		even
 
 ; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 
@@ -16625,15 +16759,15 @@ Map_obj3A:	dc.w byte_CBEA-Map_obj3A
 		dc.w byte_CB26-Map_obj3A
 		dc.w byte_CB31-Map_obj3A
 		dc.w byte_CB3C-Map_obj3A
-byte_CBEA:	dc.b 8			; SONIC HAS
-		dc.b $F8, 5, 0,	$3E, $B8
-		dc.b $F8, 5, 0,	$32, $C8
-		dc.b $F8, 5, 0,	$2E, $D8
-		dc.b $F8, 1, 0,	$20, $E8
-		dc.b $F8, 5, 0,	8, $F0
-		dc.b $F8, 5, 0,	$1C, $10
-		dc.b $F8, 5, 0,	0, $20
-		dc.b $F8, 5, 0,	$3E, $30
+byte_CBEA:	dc.b 8	;  SONIC HAS | ANDY HAS
+		dc.b $F8, 5, 0, 0, $C0		; A
+		dc.b $F8, 5, 0, $2E, $D0	; N
+		dc.b $F8, 5, 0, $0C, $E0	; D
+		dc.b $F8, 5, 0, $4A, $F0	; Y
+		dc.b $F8, 0, 0, $56, $0	; Space
+		dc.b $F8, 5, 0, $1C, $10	; H
+		dc.b $F8, 5, 0, 0, $20		; A
+		dc.b $F8, 5, 0, $3E, $30	; S
 byte_CC13:	dc.b 6			; PASSED
 		dc.b $F8, 5, 0,	$36, $D0
 		dc.b $F8, 5, 0,	0, $E0
@@ -39561,21 +39695,12 @@ Nem_TS_1st:	incbin	artnem\8x8ts1.bin; GHZ primary patterns
 		even
 Blk256_TS:	incbin	map256\ts.bin
 		even
-;		if protostuff=1
-;Blk16_LZ:	incbin	map16\lzproto.bin
-;		even
-;Nem_LZ:		incbin	artnem\8x8lzproto.bin	; LZ primary patterns
-;		even
-;Blk256_LZ:	incbin	map256\lzproto.bin
-;		even
-;		else
 Blk16_LZ:	incbin	map16\lz.bin
 		even
 Nem_LZ:		incbin	artnem\8x8lz.bin	; LZ primary patterns
 		even
 Blk256_LZ:	incbin	map256\lz.bin
 		even
-;		endc
 Blk16_MZ:	incbin	map16\mz.bin
 		even
 Nem_MZ:		incbin	artnem\8x8mz.bin	; MZ primary patterns
@@ -39657,24 +39782,19 @@ CollArray2:	incbin	collide\carray_r.bin	; rotated collision array
 		even
 Col_GHZ:	incbin	collide\ghz.bin		; GHZ index
 		even
-		if protostuff=1
-Col_LZ:		incbin	collide\lzproto.bin		; LZ index
-		even
-		else
 Col_LZ:		incbin	collide\lz.bin		; LZ index
 		even
-		endc
 Col_MZ:		incbin	collide\mz.bin		; MZ index
 		even
 Col_SLZ:	incbin	collide\slz.bin		; SLZ index
 		even
-;		if protostuff=1
-;Col_SYZ:	incbin	collide\syzproto.bin		; SYZ index
-;		even
-;		else
+		if protostuff=1
+Col_SYZ:	incbin	collide\syzproto.bin		; SYZ index
+		even
+		else
 Col_SYZ:	incbin	collide\syz.bin		; SYZ index
 		even
-;		endc
+		endc
 Col_SBZ:	incbin	collide\sbz.bin		; SBZ index
 		even
 ; ---------------------------------------------------------------------------
@@ -39757,13 +39877,8 @@ byte_68F88:	dc.b 0,	0, 0, 0
 
 Level_LZ1:	incbin	levels\lz1.bin
 		even
-;		if protostuff=1
-;Level_LZbg:	incbin	levels\lzbgproto.bin
-;		even
-;		else
 Level_LZbg:	incbin	levels\lzbg.bin
 		even
-;		endc
 byte_69190:	dc.b 0,	0, 0, 0
 Level_LZ2:	incbin	levels\lz2.bin
 		even
